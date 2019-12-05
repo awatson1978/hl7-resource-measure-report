@@ -1,6 +1,6 @@
 Package.describe({
   name: 'clinical:hl7-resource-measure-report',
-  version: '2.0.5',
+  version: '2.0.6',
   summary: 'HL7 FHIR Resource - MeasureReport',
   git: 'https://github.com/clinical-meteor/hl7-resource-measure-report',
   documentation: 'README.md'
@@ -33,7 +33,7 @@ Npm.depends({
   "simpl-schema": "1.5.3",
   "moment": "2.22.2",
   "validator": "10.9.0",
-  "lodash": "4.17.4",
+  "lodash": "4.17.13",
   "material-fhir-ui": "0.7.6",
   "react-icons": "3.8.0",
   "styled-components": "4.4.1"
