@@ -3,6 +3,10 @@ import React from 'react';
 import MeasureReportsPage from './client/MeasureReportsPage';
 import MeasureReportsTable from './client/MeasureReportsTable';
 import MeasureReportDetail from './client/MeasureReportDetail';
+<<<<<<< HEAD
+=======
+import { MeasureReport, MeasureReports, MeasureReportSchema } from './lib/MeasureReports';
+>>>>>>> c8713e10ad86a9a6b2346f1e092e79f68f7b3d8b
 
 import { FaHospitalAlt } from 'react-icons/fa';
 

@@ -12,7 +12,6 @@ import {
   Typography,
   Box
 } from '@material-ui/core';
-
 import styled from 'styled-components';
 
 import { Meteor } from 'meteor/meteor';
@@ -23,8 +22,7 @@ import ReactMixin  from 'react-mixin';
 
 import MeasureReportDetail from './MeasureReportDetail';
 import MeasureReportsTable from './MeasureReportsTable';
-// import StyledCard from './StyledCard';
-import { StyledCard, PageCanvas } from 'material-fhir-ui';
+import StyledCard from './StyledCard';
 
 import { get, cloneDeep } from 'lodash';
 
@@ -207,12 +205,12 @@ export class MeasureReportsPage extends React.Component {
     MeasureReports._collection.remove({_id: get(context, 'state.measureReportId')}, function(error, result){
       if (error) {
         if(process.env.NODE_ENV === "test") console.log('MeasureReports.insert[error]', error);
-        // Bert.alert(error.reason, 'danger');
+        Bert.alert(error.reason, 'danger');
       }
       if (result) {
         Session.set('selectedMeasureReportId', false);
         HipaaLogger.logEvent({eventType: "delete", userId: Meteor.userId(), userName: Meteor.user().fullName(), collectionName: "MeasureReports", recordId: context.state.measureReportId});
-        // Bert.alert('MeasureReport removed!', 'success');
+        Bert.alert('MeasureReport removed!', 'success');
       }
     });
     Session.set('measureReportPageTabIndex', 1);
@@ -251,13 +249,13 @@ export class MeasureReportsPage extends React.Component {
         MeasureReports._collection.update({_id: get(context, 'state.measureReportId')}, {$set: fhirMeasureReportData }, function(error, result){
           if (error) {
             if(process.env.NODE_ENV === "test") console.log("MeasureReports.insert[error]", error);
-            // Bert.alert(error.reason, 'danger');
+            Bert.alert(error.reason, 'danger');
           }
           if (result) {
             HipaaLogger.logEvent({eventType: "update", userId: Meteor.userId(), userName: Meteor.user().fullName(), collectionName: "MeasureReports", recordId: context.state.measureReportId});
             Session.set('selectedMeasureReportId', false);
             Session.set('measureReportPageTabIndex', 1);
-            // Bert.alert('MeasureReport added!', 'success');
+            Bert.alert('MeasureReport added!', 'success');
           }
         });
       } else {
@@ -268,13 +266,13 @@ export class MeasureReportsPage extends React.Component {
         MeasureReports._collection.insert(fhirMeasureReportData, function(error, result) {
           if (error) {
             if(process.env.NODE_ENV === "test")  console.log('MeasureReports.insert[error]', error);
-            // Bert.alert(error.reason, 'danger');
+            Bert.alert(error.reason, 'danger');
           }
           if (result) {
             HipaaLogger.logEvent({eventType: "create", userId: Meteor.userId(), userName: Meteor.user().fullName(), collectionName: "MeasureReports", recordId: context.state.measureReportId});
             Session.set('measureReportPageTabIndex', 1);
             Session.set('selectedMeasureReportId', false);
-            // Bert.alert('MeasureReport added!', 'success');
+            Bert.alert('MeasureReport added!', 'success');
           }
         });
       }
@@ -335,18 +333,13 @@ export class MeasureReportsPage extends React.Component {
       Session.set('measureReportPageTabIndex', newValue)
     }
 
-    let headerHeight = 64;
-    if(get(Meteor, 'settings.public.defaults.prominantHeader', false)){
-      headerHeight = 128;
-    }
-
     return (
-      <PageCanvas id="measureReportsPage" headerHeight={headerHeight} >
+      <div id="measureReportsPage" style={{paddingLeft: '100px', paddingRight: '100px', paddingBottom: '100px'}}>
         <MuiThemeProvider theme={muiTheme} >
           {/* <Container> */}
-          <StyledCard height="auto" scrollable={true} margin={20} >
+            <StyledCard>
               <CardHeader
-                title="Measure Reports"
+                title="MeasureReports"
               />
               <CardContent>
 
@@ -360,8 +353,14 @@ export class MeasureReportsPage extends React.Component {
                         hideCheckboxes={true} 
                         hideSubjects={false}
                         noDataMessagePadding={100}
-                        measureReports={this.data.measureReports}
-                        showDescription={true}
+                        actionButtonLabel="Send"
+                        measureReports={ this.data.measureReports }
+                        paginationLimit={10}
+                        hideSubjects={true}
+                        hideClassCode={false}
+                        hideReasonCode={false}
+                        hideReason={false}
+                        hideHistory={false}
                         // appWidth={ Session.get('appWidth') }
                         // onRowClick={ this.onTableRowClick }
                         // onCellClick={ this.onTableCellClick }
@@ -439,7 +438,7 @@ export class MeasureReportsPage extends React.Component {
             </StyledCard>
           {/* </Container> */}
         </MuiThemeProvider>
-      </PageCanvas>
+      </div>
     );
   }
 }
